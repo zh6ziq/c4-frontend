@@ -1,24 +1,48 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import MainLayout from "../layout/MainLayout.vue"
+import AdminLayout from "../layout/AdminLayout.vue"
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home,
+    path: '/',
+    component: MainLayout,
+    children: [
+      {
+        path: '/',
+        component: () => import('../views/Home.vue')
+      },
+      {
+        path: '/contact',
+        component: () => import('../views/Contact.vue')
+      }
+    ]
   },
+
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
+    path: '/admin',
+    component: AdminLayout,
+    children: [
+      {
+        path: '/',
+        component: () => import('../views/Dashboard.vue')
+      },
+      {
+        path: '/patients',
+        component: () => import('../views/Admin/cUser.vue')
+      },
+      {
+        path: '/appointment',
+        component: () => import('../views/Admin/cAppointment.vue')
+      },
+      {
+        path: '/medicine',
+        component: () => import('../views/Admin/cMedicine.vue')
+      }
+    ]
+  }
 ];
 
 const router = new VueRouter({
